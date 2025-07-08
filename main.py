@@ -4,38 +4,41 @@ import numpy as np
 import time
 
 
-def main():
-    drone_start_position = np.array([0, 0, 0], dtype=float)  # Starting position of the drone
-    drone_start_velocity = np.array([0, 0, 0], dtype=float)  # Starting velocity of the drone in x, y, z axes
-    drone = Drone(drone_start_position, drone_start_velocity)
-    radar = Radar() 
+class Main:
+    
+    radar = Radar()
+    drone = Drone([0, 0, 0], [1, 0.5, 0.2])
+    
+    # Start flying and continuous radar updates
+    drone.start_flying()
+    drone.start_continuous_radar_updates(radar, update_interval=0.5)
+    
+    # Simulation of drone movement
     dt = 0.1
-
-    print("Starting drone simulation...")
-    iterations = 50
-    for i in range(iterations):  # Reduced iterations for better visualization
-        if not drone.is_flying:
-            drone.is_flying = True
-            print("Drone is now flying.")
+    for i in range(500):
         drone.update_position(dt, drone.velocity)
-        drone.velocity += np.random.normal(-0.1, 1, size=3) # velocity can be captured from radar or other sensors to get real-time updates
-        drone.time_reading += dt # increment time reading for each iteration and position update
-        drone.send_position_to(radar)
-        # sleep
-        time.sleep(dt)
-
-        # Print status every 10 iterations
-        if i%10 == 0:
-            print(f"Time: {drone.time_reading:.2f}s, Position: {drone.position}, Velocity: {drone.velocity}")
+        drone.velocity += np.random.normal(0, 0.1, size=3)
+        drone.time_reading += dt
+        time.sleep(0.1)  # Simulate real-time
+        
+        if i % 10 == 0:
+            print(f"[MAIN] Drone position: {drone.position}")
     
-    # Final position after all iterations
-    print("Drone final position after iterations:", drone.position)
-    print("Generating 3d graph . . .")
+    # Stop updates
+    drone.stop_continuous_radar_updates()
+    # Stop flying
+    drone.stop_flying()
     
-    # Show the visualizations
+    print(f"[RADAR] Total positions captured: {len(radar.position_history)}")
+    
+    # Visualization
     drone.plot_3d_trajectory()
     drone.plot_position_vs_time()
     drone.animate_movement(interval=200)  # Animation with 200ms between frames
 
 if __name__ == "__main__":
-    main()
+    main = Main()
+    print("[MAIN] Simulation completed.")
+
+
+
