@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from matplotlib.animation import FuncAnimation
 import time
+from threading import Thread
+
 
 class Drone:
     def __init__(self, position, velocity):
@@ -11,11 +13,14 @@ class Drone:
         self.time_reading = 0.0 # start time reading at 0.0
         self.history = [self.position.copy()] # to store the history of positions for plotting the trajectory
         self.time_history = [0.0]  # to store time history
+        self.is_flying = False # initially not active
     
     def update_position(self, dt, velocity):
         self.position += velocity * dt
         self.history.append(self.position.copy())  # Store position history
         self.time_history.append(self.time_reading)  # Store time history
+    
+    
     
     def plot_3d_trajectory(self):
         """Plot the 3D trajectory of the drone"""
@@ -129,36 +134,15 @@ class Drone:
         ani = FuncAnimation(fig, animate, frames=len(positions), interval=interval, blit=False)
         plt.show()
         return ani
-
-def main():
-    start_position = np.array([0, 0, 0], dtype=float)  # Starting position of the drone
-    start_velocity = np.array([0, 0, 0], dtype=float)  # Starting velocity of the drone in x, y, z axes
-    drone = Drone(start_position, start_velocity)
-    dt = 0.1 # time variation to update the position in all axes x,y,z depending on velocity random variation.
     
-    print("Starting drone simulation...")
-    iterations = 50
-    for i in range(iterations):  # Reduced iterations for better visualization
-        drone.update_position(dt, drone.velocity)
-        drone.velocity += np.random.normal(-0.1, 1, size=3) # velocity can be captured from radar or other sensors to get real-time updates
-        drone.time_reading += dt # increment time reading for each iteration and position update
-    
-        # Print status every 10 iterations
-        if i%10 == 0:
-            print(f"Time: {drone.time_reading:.2f}s, Position: {drone.position}, Velocity: {drone.velocity}")
-    
-    # Final position after all iterations
-    print("Drone final position after iterations:", drone.position)
-    print("Generating 3d graph . . .")
-    
-    # Show the visualizations
-    drone.plot_3d_trajectory()
-    drone.plot_position_vs_time()
-    drone.animate_movement(interval=200)  # Animation with 200ms between frames
-    drone.plot_3d_trajectory()
-    drone.plot_position_vs_time()
-    drone.animate_movement()
+    def send_position_to(self, radar):
+        if not self.is_flying:
+            print("Drone is not flying. Cannot send position data.")
+            return
+        position_to_send = self.position.copy()
+        time_to_send = self.time_reading
+        radar.capture_position_variations(position_to_send, time_to_send)
+        Thread(target=radar.capture_position_variations, args=(position_to_send, time_to_send)).start()
 
 
-if __name__ == "__main__":
-    main()
+
