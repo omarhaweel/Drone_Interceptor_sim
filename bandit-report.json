@@ -1,0 +1,111 @@
+{
+  "errors": [],
+  "generated_at": "2025-07-09T22:28:12Z",
+  "metrics": {
+    "./drone.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 52,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./interceptor.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 53,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./main.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 55,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./plotting.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 210,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./radar.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 44,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./reinforcment_ML.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 37,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "./tests/test_drone_interception.py": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 107,
+      "nosec": 0,
+      "skipped_tests": 0
+    },
+    "_totals": {
+      "CONFIDENCE.HIGH": 0,
+      "CONFIDENCE.LOW": 0,
+      "CONFIDENCE.MEDIUM": 0,
+      "CONFIDENCE.UNDEFINED": 0,
+      "SEVERITY.HIGH": 0,
+      "SEVERITY.LOW": 0,
+      "SEVERITY.MEDIUM": 0,
+      "SEVERITY.UNDEFINED": 0,
+      "loc": 558,
+      "nosec": 0,
+      "skipped_tests": 0
+    }
+  },
+  "results": []
+}
