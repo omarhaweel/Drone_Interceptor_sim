@@ -1,5 +1,3 @@
-
-
 from matplotlib import pyplot as plt
 from matplotlib.animation import FuncAnimation
 import numpy as np
@@ -9,7 +7,7 @@ def plot_3d_trajectory(drone, interceptor):
         positions_drone = np.array(drone.history)
         positions_interceptor = np.array(interceptor.history)
         
-        # Create a 3D plot
+
         fig = plt.figure(figsize=(12, 8))
         ax = fig.add_subplot(111, projection='3d')
         
@@ -51,8 +49,6 @@ def plot_3d_trajectory(drone, interceptor):
         
         plt.show()
     
-
-
 def plot_position_vs_time(drone, interceptor):
         """Plot position components vs time"""
     
@@ -88,52 +84,77 @@ def plot_position_vs_time(drone, interceptor):
         plt.show()
 
 
-        positions_drone = np.array(drone.history)
-        positions_interceptor = np.array(interceptor.history)
+def animate(drone, interceptor, interval=100):
 
-        fig = plt.figure(figsize=(12, 8))
-        ax = fig.add_subplot(111, projection='3d')
-        
-        # Set axis limits based on trajectory bounds
-        ax.set_xlim(positions_drone[:, 0].min() - 1, positions_drone[:, 0].max() + 1)
-        ax.set_ylim(positions_drone[:, 1].min() - 1, positions_drone[:, 1].max() + 1)
-        ax.set_zlim(positions_drone[:, 2].min() - 1, positions_drone[:, 2].max() + 1)
-        # Set limits for interceptor
-        ax.set_xlim(positions_interceptor[:, 0].min() - 1, positions_interceptor[:, 0].max() + 1)
-        ax.set_ylim(positions_interceptor[:, 1].min() - 1, positions_interceptor[:, 1].max() + 1)
-        ax.set_zlim(positions_interceptor[:, 2].min() - 1, positions_interceptor[:, 2].max() + 1)
+    positions_drone = np.array(drone.history)
+    positions_interceptor = np.array(interceptor.history)
 
-        ax.set_xlabel('X Position')
-        ax.set_ylabel('Y Position')
-        ax.set_zlabel('Z Position')
-        ax.set_title('Animated Drone and Interceptor Movement')
-        ax.view_init(elev=20, azim=-30)  # Set initial view angle
-        ax.grid(True)
-        # Plot interceptor trajectory
-        # Initialize empty line for trajectory
-        line, = ax.plot([], [], [], 'b-', linewidth=2, label='Trajectory')
-        point, = ax.plot([], [], [], 'ro', markersize=8, label='Drone')
-        
-        def animate(frame):
-            if frame < len(positions_drone):
-                # Update trajectory up to current frame
-                line.set_data(positions_drone[:frame+1, 0], positions_drone[:frame+1, 1])
-                line.set_data(positions_interceptor[:frame+1, 0], positions_interceptor[:frame+1, 1])
-                line.set_3d_properties(positions_interceptor[:frame+1, 2])
-                line.set_3d_properties(positions_drone[:frame+1, 2])
+    times_drone = np.array(drone.time_history)
+    times_interceptor = np.array(interceptor.time_history)
 
-                # Update current position
-                point.set_data([positions_drone[frame, 0]], [positions_drone[frame, 1]])
-                point.set_data([positions_interceptor[frame, 0]], [positions_interceptor[frame, 1]])
-                point.set_3d_properties([positions_interceptor[frame, 2]])
-                point.set_3d_properties([positions_drone[frame, 2]])
+    fig = plt.figure(figsize=(12, 8))
+    ax = fig.add_subplot(111, projection='3d')
 
-                ax.set_title(f'Animated Drone and interceptor Movement - Time: {drone.time_history[frame]:.2f}s')
+    # Cmbined bounds for both trajectories
+    all_x = np.concatenate([positions_drone[:, 0], positions_interceptor[:, 0]])
+    all_y = np.concatenate([positions_drone[:, 1], positions_interceptor[:, 1]])
+    all_z = np.concatenate([positions_drone[:, 2], positions_interceptor[:, 2]])
 
-            
-            return line, point
-        
-        ax.legend()
-        ani = FuncAnimation(fig, animate, frames=len(positions_drone), interval=interval, blit=False)
-        plt.show()
-        return ani
+    # Set limits based on combined bounds + 1 for all axes as padding
+    ax.set_xlim(all_x.min() - 1, all_x.max() + 1)
+    ax.set_ylim(all_y.min() - 1, all_y.max() + 1)
+    ax.set_zlim(all_z.min() - 1, all_z.max() + 1)
+
+
+    ax.set_xlabel('X Position')
+    ax.set_ylabel('Y Position')
+    ax.set_zlabel('Z Position')
+
+    ax.set_title('Animated Drone and Interceptor Movement')
+    ax.view_init(elev=20, azim=-30)
+    ax.grid(True)
+
+    # Initialize empty lines for trajectories
+    line_drone, = ax.plot([], [], [], 'b-', linewidth=3, label='Drone Trajectory')
+    line_interceptor, = ax.plot([], [], [], 'r-', linewidth=1, label='Interceptor Trajectory')
+    
+    # Initialize points for current positions
+    point_drone, = ax.plot([], [], [], 'bo', markersize=10, label='Drone Position')
+    point_interceptor, = ax.plot([], [], [], 'ro', markersize=6, label='Interceptor Position')
+
+    ax.legend()
+
+    def animate_frame(frame):
+
+        if frame < len(positions_drone):
+            line_drone.set_data(positions_drone[:frame+1, 0], positions_drone[:frame+1, 1])
+            line_drone.set_3d_properties(positions_drone[:frame+1, 2])
+            point_drone.set_data([positions_drone[frame, 0]], [positions_drone[frame, 1]])
+            point_drone.set_3d_properties([positions_drone[frame, 2]])
+            current_time = times_drone[frame] if frame < len(times_drone) else times_drone[-1]
+        else:
+            # Keep last position visible
+            point_drone.set_data([positions_drone[-1, 0]], [positions_drone[-1, 1]])
+            point_drone.set_3d_properties([positions_drone[-1, 2]])
+            current_time = times_drone[-1]
+
+        # Update interceptor trajectory and position
+        if frame < len(positions_interceptor):
+            line_interceptor.set_data(positions_interceptor[:frame+1, 0], positions_interceptor[:frame+1, 1])
+            line_interceptor.set_3d_properties(positions_interceptor[:frame+1, 2])
+            point_interceptor.set_data([positions_interceptor[frame, 0]], [positions_interceptor[frame, 1]])
+            point_interceptor.set_3d_properties([positions_interceptor[frame, 2]])
+        else:
+            # Keep last position visible
+            point_interceptor.set_data([positions_interceptor[-1, 0]], [positions_interceptor[-1, 1]])
+            point_interceptor.set_3d_properties([positions_interceptor[-1, 2]])
+
+        ax.set_title(f'Animated Drone and Interceptor Movement - Time: {current_time:.2f}s')
+        return line_drone, point_drone, line_interceptor, point_interceptor
+
+    # Use the maximum number of frames from both objects
+    max_frames = max(len(positions_drone), len(positions_interceptor))
+    animation = FuncAnimation(fig, animate_frame, frames=max_frames, interval=interval, blit=False, repeat=True)
+    
+    plt.show()
+    return animation

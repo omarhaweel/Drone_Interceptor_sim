@@ -5,31 +5,51 @@ from drone import Drone
 import numpy as np
 import time
 from plotting import plot_3d_trajectory, plot_position_vs_time
-
+from plotting import animate
 
 class Main:
     def __init__(self):
         self.drone = Drone([-4, 3, 13], [12, 3, 20])
         self.radar = Radar()
-        self.interceptor = Interceptor([50, 34, 4], [2, 2, 3])
+        self.interceptor = Interceptor([0, 0, 0], [0, 0, 0])
 
-        # Start flying and continuous radar updates
         self.drone.start_flying()
         self.interceptor.start_flying()
-        self.drone.start_continuous_radar_updates(self.radar, update_interval=0.001)
-        self.radar.start_sending_updates_to_interceptor(self.interceptor, update_interval=0.001)
+        self.drone.start_continuous_radar_updates(self.radar, update_interval=0.1)
+        self.radar.start_sending_updates_to_interceptor(self.interceptor, update_interval=0.1)
         
-        # Simulation of drone movement
+        # Simulation
         dt = 0.1
         for i in range(100):
+            random_velocity_change = np.random.normal(0, 2.0, size=3)  
+            random_direction_change = np.random.uniform(-5, 5, size=3)
+            
+            # Occasionally make dramatic direction changes
+            if np.random.random() < 0.2:  # 20% chance of dramatic change
+                self.drone.velocity = np.random.uniform(-15, 15, size=3)
+            else:
+                self.drone.velocity += random_velocity_change + random_direction_change
+            
+            if np.random.random() < 0.1:  # 10% chance of acceleration burst
+                acceleration = np.random.uniform(-10, 10, size=3)
+                self.drone.velocity += acceleration
+            
+            # Limit maximum speed, for testing now
+            max_speed = 50
+            speed = np.linalg.norm(self.drone.velocity)
+            if speed > max_speed:
+                self.drone.velocity = (self.drone.velocity / speed) * max_speed
+            
             self.drone.update_position(dt, self.drone.velocity)
-            self.drone.velocity += np.random.normal(-0.1, 0.1, size=3)
             self.drone.time_reading += dt
-            time.sleep(0.1)  # Simulate real-time
+            # Simulate real-time updates,
+            # consistent timing, give time to threads to update foreward
+            time.sleep(0.1)
             
             if i % 10 == 0:
-                print(f"[MAIN] Drone position: {self.drone.position}")
+                print(f"[MAIN] Drone position: {self.drone.position}, velocity: {self.drone.velocity}")
             
+
         # do not stop drone uodating the radar
         self.drone.stop_flying()
         self.radar.stop_sending_updates()
@@ -45,6 +65,8 @@ class Main:
         plot_3d_trajectory(self.drone, self.interceptor)
         # Plotting position vs time
         plot_position_vs_time(self.drone, self.interceptor)
+        # animate
+        animate(self.drone, self.interceptor)
       
   
 
