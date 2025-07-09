@@ -1,28 +1,42 @@
-# Drone_Interceptor_sim
-A simulation of a drone and interceptor-drone in 3D space
+# Drone Interceptor Simulation
 
-# REQUIREMENTS
+**Purpose:**  
+A 3D simulation of an interceptor drone pursuing and attempting to intercept a moving target (aggressor) drone using evasion and pursuit dynamics.
+
+---
+
+## Description
+
+This simulation is built for educational purposes and is not optimized for production use. It aims to demonstrate fundamental principles of:
+
+Pursuit-evasion dynamics
+3D radar tracking
+Reinforcement learning (future)
+Multi-threaded simulations (future)
+The interceptor will eventually be trained using reinforcement learning with a reward-penalty system to improve its interception strategy in real-time simulations.
+
+## 🚀 Overview
+
+This project simulates a dynamic interaction between two drones in 3D space:
+
+- **Aggressor Drone:** A target drone that enters the surveillance zone with a given velocity.
+- **3D Radar System:** Models the surveillance space using X, Y, and Z coordinates, tracking drone movement over time.
+- **Interceptor Drone:** A faster, more agile drone designed to pursue and intercept the aggressor.
+
+The simulation currently uses basic physics and visualization. Future iterations will involve Reinforcement Learning and multithreading to enhance performance and learning capabilities.
+
+---
+
+## 📦 Requirements
+
 - Python 3.8+
-- numpy
-- matplotlib
+- `numpy`
+- `matplotlib`
 
-# DESCRIPTION
-This project is intened for learning purposes and is not optimized for performance.
-Gradually will be improved by an interceptor drone that will try to intercept the target drone
-using Reinforcement Learning to learn the best strategy to intercept a non-stationary target.
+Install dependencies:
 
-Multithreading will be implemented later to allow for faster computation with Reward-penalty approach
-This will allow the interceptor to learn from multiple simulations at once.
+pip install numpy matplotlib
 
-# DEVELOPMENT PHASES
-PHASE 1: DRONE SIMULATION implemented, visualized by matplotlib, X,Y,Z axes.
-PHASE 2: ----- the Interceptor not implemented
-PHASE 3: ----- Reinforcement Learning not implemented
-PHASE 4: ----- Multithreading not implemented
-PHASE 5: parameter optimization and performance improvements
-PHASE 6: Get real-time data in format velocity on x,y,z every 0.1 seconds (Radar-like data) instead of random data
-this can be achieved by by sectioning the 3D space into a 3D grid and fixing the 0,0,0 point as the center of the grid
-in a real airspace
+## RUN 
+python3 main.py
 
-# RUN
-python3 drone.py

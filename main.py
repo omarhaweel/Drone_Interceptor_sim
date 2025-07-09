@@ -11,7 +11,7 @@ class Main:
     def __init__(self):
         self.drone = Drone([-4, 3, 13], [12, 3, 20])
         self.radar = Radar()
-        self.interceptor = Interceptor([0, 0, 0], [0, 0, 0])
+        self.interceptor = Interceptor([5, 1, 10], [0, 0, 0])
 
         self.drone.start_flying()
         self.interceptor.start_flying()
