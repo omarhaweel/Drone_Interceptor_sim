@@ -55,7 +55,7 @@ class Interceptor:
         # Calculate distance to target
         distance = np.linalg.norm(direction)
 
-        if distance > 0.0001:
+        if distance > 0.1: # React quickly, is distatance between tar pos and interceptor pos > 0.1 units
             direction_normalized = direction / distance
             movement = direction_normalized * self.intercept_speed * dt
             self.position += movement
