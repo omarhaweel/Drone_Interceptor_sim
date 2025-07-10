@@ -121,38 +121,3 @@ jobs:
         path: |
           bandit-report.json
           safety-report.json
-
-  deploy:
-    name: Deploy (only if on main)
-    needs: [test, build, security-scan]
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Download build artifacts
-      uses: actions/download-artifact@v4
-      with:
-        name: build-artifacts
-        
-    - name: Create Release
-      if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        body: |
-          Automated release of drone interception system
-          
-          ## Changes
-          - Check commit history for detailed changes
-          
-          ## Files
-          - Complete source code
-          - Requirements and documentation
-        draft: false
-        prerelease: false
