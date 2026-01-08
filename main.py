@@ -10,10 +10,9 @@ from plotting import animate
 
 class Main:
     def __init__(self):
-        self.drone = Drone([-4, 3, 13], [12, 3, 20])
+        self.drone = Drone([-12, -12, -13], [6, 1.5, 10])
         self.radar = Radar()
         self.interceptor = Interceptor([5, 1, 10], [0, 0, 0])
-
         self.drone.start_flying()
         self.interceptor.start_flying()
         self.drone.start_continuous_radar_updates(self.radar, update_interval=0.1)
@@ -38,7 +37,7 @@ class Main:
                 self.drone.velocity += acceleration
 
             # Limit maximum speed, for testing now
-            max_speed = 50
+            max_speed = 40
             speed = np.linalg.norm(self.drone.velocity)
             if speed > max_speed:
                 self.drone.velocity = (self.drone.velocity / speed) * max_speed

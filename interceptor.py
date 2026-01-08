@@ -24,7 +24,7 @@ class Interceptor:
         self.is_moving = False
         self.movement_thread = None
         self.intercept_speed = (
-            30.0  # Interceptor moves much faster than drone to catch up
+            20.0 # Interceptor moves much faster than drone to catch up, can be adjusted
         )
 
     def start_flying(self):
