@@ -23,7 +23,7 @@ This project simulates a dynamic interaction between two drones in 3D space:
 - **3D Radar System:** Models the surveillance space using X, Y, and Z coordinates, tracking drone movement over time.
 - **Interceptor Drone:** A faster, more agile drone designed to pursue and intercept the aggressor.
 
-The simulation currently uses basic physics and visualization. Future iterations will involve Reinforcement Learning and multithreading to enhance performance and learning capabilities.
+The simulation currently uses basic physics and visualization. Future iterations can involve Reinforcement Learning and multithreading to enhance performance and learning capabilities.
 
 ---
 

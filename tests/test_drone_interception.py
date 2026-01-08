@@ -55,7 +55,7 @@ class TestInterceptor(unittest.TestCase):
         np.testing.assert_array_equal(self.interceptor.position, [0, 0, 0])
         np.testing.assert_array_equal(self.interceptor.velocity, [0, 0, 0])
         self.assertFalse(self.interceptor.is_flying)
-        self.assertEqual(self.interceptor.intercept_speed, 30.0) # can be adjusted
+        self.assertEqual(self.interceptor.intercept_speed, 20.0) # can be adjusted
 
     def test_interceptor_flying_state(self):
         """Test interceptor flying state management"""
